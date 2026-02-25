@@ -1,0 +1,491 @@
+---
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Events - Claus Bertermann" />
+    <title>Events - Claus Bertermann</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Barlow', sans-serif;
+        background-color: #ffffff;
+        color: #111827;
+        min-height: 100vh;
+      }
+      
+      /* Header */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background: #ffffff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      
+      .header-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.75rem;
+        font-weight: 300;
+        letter-spacing: 0.1875rem;
+        text-transform: uppercase;
+        color: #111827;
+        text-decoration: none;
+      }
+      
+      .logo img {
+        height: 28px;
+        width: auto;
+      }
+      
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2.5rem;
+        align-items: center;
+      }
+      
+      nav li {
+        position: relative;
+      }
+      
+      nav a {
+        color: #111827;
+        text-decoration: none;
+        font-size: 0.9375rem;
+        font-weight: 400;
+        letter-spacing: 0.05rem;
+        text-transform: uppercase;
+        transition: color 0.3s;
+        font-family: 'Barlow', sans-serif;
+      }
+      
+      nav a:hover {
+        color: #6b7280;
+      }
+      
+      /* Dropdown Menu */
+      .dropdown {
+        position: relative;
+        padding-bottom: 1rem;
+        margin-bottom: -1rem;
+      }
+      
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #ffffff;
+        min-width: 160px;
+        padding: 0.5rem 0;
+        margin-top: 0;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+      
+      .dropdown-content::before {
+        content: '';
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 6px solid #ffffff;
+      }
+      
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      
+      .dropdown-content a {
+        display: block;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.8125rem;
+        font-weight: 300;
+        color: #374151;
+        text-align: center;
+      }
+      
+      .dropdown-content a:hover {
+        color: #111827;
+        background: rgba(0, 0, 0, 0.05);
+      }
+      
+      /* Main Content */
+      main {
+        padding-top: 80px;
+        min-height: 100vh;
+      }
+      
+      /* Events Section */
+      .events-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+      }
+      
+      .events-header {
+        margin-bottom: 3rem;
+      }
+      
+      .events-header h1 {
+        font-size: 2rem;
+        font-weight: 300;
+        letter-spacing: 0.05rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        color: #111827;
+      }
+      
+      .events-header .subtitle {
+        font-size: 1.25rem;
+        font-weight: 300;
+        color: #6b7280;
+      }
+      
+      /* Event Blocks */
+      .event-block {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: 3rem;
+        margin-bottom: 4rem;
+        align-items: start;
+      }
+      
+      .event-image {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+      
+      .event-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      
+      .event-content h2 {
+        font-size: 1.625rem;
+        font-weight: 400;
+        color: #111827;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+      }
+      
+      .event-content .date {
+        font-size: 1.125rem;
+        color: #6b7280;
+        margin-bottom: 0.5rem;
+      }
+      
+      .event-content a {
+        color: #111827;
+        text-decoration: underline;
+        font-size: 1.125rem;
+      }
+      
+      .event-content a:hover {
+        color: #6b7280;
+      }
+      
+      .event-content h3 {
+        font-size: 1.425rem;
+        font-weight: 400;
+        color: #111827;
+        margin-bottom: 1rem;
+        margin-top: 1.5rem;
+      }
+      
+      .event-content ul {
+        list-style: none;
+        margin-bottom: 1.5rem;
+      }
+      
+      .event-content li {
+        font-size: 1.2rem;
+        color: #374151;
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+      }
+      
+      .event-content p {
+        font-size: 1.2rem;
+        color: #374151;
+        margin-bottom: 0.75rem;
+        line-height: 1.6;
+      }
+      
+      /* Footer */
+      .main-footer {
+        background: #f9fafb;
+        padding: 3rem 2rem;
+        border-top: 1px solid #e5e7eb;
+      }
+      
+      .footer-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+      }
+      
+      .footer-column h3 {
+        font-size: 0.875rem;
+        font-weight: 500;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        color: #111827;
+      }
+      
+      .footer-column ul {
+        list-style: none;
+      }
+      
+      .footer-column li {
+        margin-bottom: 0.75rem;
+      }
+      
+      .footer-column a {
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: color 0.3s;
+      }
+      
+      .footer-column a:hover {
+        color: #111827;
+      }
+      
+      .footer-bottom {
+        max-width: 1400px;
+        margin: 2rem auto 0;
+        padding-top: 2rem;
+        border-top: 1px solid #e5e7eb;
+        text-align: center;
+        color: #9ca3af;
+        font-size: 0.875rem;
+      }
+      
+      /* Responsive */
+      @media (max-width: 968px) {
+        .event-block {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          margin-bottom: 3rem;
+        }
+        
+        .event-image {
+          max-width: 400px;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .header-container {
+          padding: 1rem;
+        }
+        
+        .logo {
+          font-size: 1rem;
+        }
+        
+        .logo img {
+          height: 20px;
+        }
+        
+        nav ul {
+          gap: 1rem;
+        }
+        
+        nav a {
+          font-size: 0.75rem;
+        }
+        
+        .events-container {
+          padding: 2rem 1rem;
+        }
+        
+        .events-header h1 {
+          font-size: 1.5rem;
+        }
+        
+        .footer-container {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <a href="/" class="logo">
+          <img src="/favicon.png" alt="Logo" />
+          <span>Claus Bertermann</span>
+        </a>
+        <nav>
+          <ul>
+            <li class="dropdown">
+              <span style="color: #111827; font-size: 0.9375rem; font-weight: 400; letter-spacing: 0.05rem; text-transform: uppercase; cursor: default;">Selected Works</span>
+              <div class="dropdown-content">
+                <a href="/selected-works?category=figurative">Figurative</a>
+                <a href="/selected-works?category=abstract">Abstract</a>
+              </div>
+            </li>
+            <li><a href="/bio">Bio</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="events-container">
+        <div class="events-header">
+          <h1>Relevant Events</h1>
+          <p class="subtitle">Press, Auctions & Exhibitions</p>
+        </div>
+
+        <!-- Artnet Interview -->
+        <div class="event-block">
+          <div class="event-image">
+            <img src="/images/events/artnet-interview.jpg" alt="Artnet Interview" />
+          </div>
+          <div class="event-content">
+            <h2>artnet Interview July 2025 - 'Don't Try to Understand This Artist's Paintings. He Wouldn't Want You To'</h2>
+            <p class="date">July 2025</p>
+            <a href="#">Read Article</a>
+          </div>
+        </div>
+
+        <!-- Auction Highlights -->
+        <div class="event-block">
+          <div class="event-image">
+            <img src="/images/events/auction-highlights.jpg" alt="Auction Highlights" />
+          </div>
+          <div class="event-content">
+            <h2>Auction Highlights</h2>
+            <ul>
+              <li>Christie's April 2024</li>
+              <li>Christie's December 2024</li>
+              <li>Sotheby's June 2025</li>
+              <li>Van Ham October 2025</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Notable Solo Exhibitions -->
+        <div class="event-block">
+          <div class="event-image">
+            <img src="/images/events/solo-exhibitions.jpg" alt="Solo Exhibitions" />
+          </div>
+          <div class="event-content">
+            <h2>Notable Solo Exhibitions</h2>
+            <ul>
+              <li>2025 – Robinson's Art Gallery, Knokke, Belgium</li>
+              <li>2024 – Robinson's Art Gallery, Knokke, Belgium</li>
+              <li>2019 – BBVA Art Space, Oviedo, Spain</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Press and Exhibitions -->
+        <div class="event-block">
+          <div class="event-image">
+            <img src="/images/events/press-exhibitions.jpg" alt="Press and Exhibitions" />
+          </div>
+          <div class="event-content">
+            <h2>Press and Exhibitions</h2>
+            
+            <h3>Selected Exhibitions</h3>
+            <ul>
+              <li>2025 Solo Exhibition, Robinsons Art Gallery, Knokke Zoute, Belgium</li>
+              <li>2024 Group Exhibition, Robinsons Art Gallery, Knokke Zoute, Belgium</li>
+              <li>2024 Group Exhibition, Sala Trascorrales, Oviedo, Spain</li>
+              <li>2019 Solo Exhibition, BBVA Art Space, Oviedo, Spain</li>
+            </ul>
+            
+            <h3>Selected Press</h3>
+            <ul>
+              <li>2025 Artnet</li>
+              <li>2024 Trends Style Magazine</li>
+              <li>2023 Schöner Wohnen</li>
+              <li>2024 TUM Campus News</li>
+            </ul>
+            
+            <h3>Donations</h3>
+            <p>2024 TUM – Donation, Large Tryptich For Main Conference Room "Amalie Baur"</p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-container">
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="/selected-works">Selected Works</a></li>
+            <li><a href="/bio">Bio</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/legal">Legal</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Shop</h3>
+          <ul>
+            <li><a href="https://www.1stdibs.com/dealers/claus-bertermann/" target="_blank" rel="noopener noreferrer">Claus Bertermann on 1stDibs</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Follow Us</h3>
+          <ul>
+            <li><a href="https://www.instagram.com/clausbertermann/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="https://www.linkedin.com/in/clausbertermann/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 <span style="text-transform: uppercase; letter-spacing: 0.1rem;">Claus Bertermann</span>. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

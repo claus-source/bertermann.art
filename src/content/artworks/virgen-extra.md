@@ -1,0 +1,38 @@
+---
+title: "Virgen Extra"
+year: "2026"
+materials: "Acrylic and oil crayon on canvas"
+size: "150 × 200 cm (59 × 78.5 inches)"
+category: "figurative"
+status: "available"
+price: "22000 USD"
+image: "https://ceujgdartrpbilmhwrni.supabase.co/storage/v1/object/public/artwork-images/public/1770734869612_2ht4jifll3k.jpg"
+imageName: "claus-bertermann-virgen-extra-figurative-painting-acrylic-and-oil-crayon-on-canvas-150x200cm-2026-detail-view-1.jpg"
+altText: "Claus Bertermann - Virgen Extra Acrylic and oil crayon on canvas 150 × 200 cm (59 × 78.5 inches) 2026"
+orderIndex: 4
+additionalImages:
+  - url: "https://ceujgdartrpbilmhwrni.supabase.co/storage/v1/object/public/artwork-images/public/1770734869609_39iyz7mefsp.jpg"
+    name: "claus-bertermann-virgen-extra-figurative-painting-acrylic-and-oil-crayon-on-canvas-150x200cm-2026-main-view.jpg"
+  - url: "https://ceujgdartrpbilmhwrni.supabase.co/storage/v1/object/public/artwork-images/public/1770734869612_lpfjd5os5r.jpg"
+    name: "claus-bertermann-virgen-extra-figurative-painting-acrylic-and-oil-crayon-on-canvas-150x200cm-2026-detail-view-2.jpg"
+  - url: "https://ceujgdartrpbilmhwrni.supabase.co/storage/v1/object/public/artwork-images/public/1770734869612_tjaq8gsco5i.jpg"
+    name: "claus-bertermann-virgen-extra-figurative-painting-acrylic-and-oil-crayon-on-canvas-150x200cm-2026-detail-view-3.jpg"
+  - url: "https://ceujgdartrpbilmhwrni.supabase.co/storage/v1/object/public/artwork-images/public/1770734869612_5r608i9gaga.jpg"
+    name: "claus-bertermann-virgen-extra-figurative-painting-acrylic-and-oil-crayon-on-canvas-150x200cm-2026-detail-view-4.jpg"
+  - url: "https://ceujgdartrpbilmhwrni.supabase.co/storage/v1/object/public/artwork-images/public/1770734869612_ju8323pwcdh.jpg"
+    name: "claus-bertermann-virgen-extra-figurative-painting-acrylic-and-oil-crayon-on-canvas-150x200cm-2026-detail-view-5.jpg"
+  - url: "https://ceujgdartrpbilmhwrni.supabase.co/storage/v1/object/public/artwork-images/public/1770734869612_58zberfmk9x.jpg"
+    name: "claus-bertermann-virgen-extra-figurative-painting-acrylic-and-oil-crayon-on-canvas-150x200cm-2026-detail-view-6.jpg"
+  - url: "https://ceujgdartrpbilmhwrni.supabase.co/storage/v1/object/public/artwork-images/public/1770734869612_duqwndlh0zs.jpg"
+    name: "claus-bertermann-virgen-extra-figurative-painting-acrylic-and-oil-crayon-on-canvas-150x200cm-2026-detail-view-7.jpg"
+  - url: "https://ceujgdartrpbilmhwrni.supabase.co/storage/v1/object/public/artwork-images/public/1770734869612_3bozdtho9xx.jpg"
+    name: "claus-bertermann-virgen-extra-figurative-painting-acrylic-and-oil-crayon-on-canvas-150x200cm-2026-detail-view-8.jpg"
+  - url: "https://ceujgdartrpbilmhwrni.supabase.co/storage/v1/object/public/artwork-images/public/1770734869612_lptrmkkvbte.jpg"
+    name: "claus-bertermann-virgen-extra-figurative-painting-acrylic-and-oil-crayon-on-canvas-150x200cm-2026-detail-view-9.jpg"
+  - url: "https://ceujgdartrpbilmhwrni.supabase.co/storage/v1/object/public/artwork-images/public/1770734869613_egp8iyj5o1.jpg"
+    name: "claus-bertermann-virgen-extra-figurative-painting-acrylic-and-oil-crayon-on-canvas-150x200cm-2026-detail-view-10.jpg"
+caption: ""
+keywords: ""
+---
+
+Virgen Extra (2026) - Acrylic and oil crayon on canvas, 150 × 200 cm (59 × 78.5 inches)

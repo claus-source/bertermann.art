@@ -1,0 +1,449 @@
+---
+export const prerender = false;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Claus Bertermann</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Barlow', sans-serif; background: #f0f0f0; color: #333; }
+
+    /* Login */
+    .login-screen { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
+    .login-box { background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%; max-width: 400px; }
+    .login-box h1 { font-size: 1.5rem; font-weight: 300; text-transform: uppercase; letter-spacing: 0.2rem; text-align: center; margin-bottom: 0.5rem; }
+    .login-box p { text-align: center; color: #666; margin-bottom: 2rem; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05rem; color: #666; margin-bottom: 0.5rem; }
+    .form-group input { width: 100%; padding: 0.875rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-family: 'Barlow', sans-serif; font-size: 1rem; }
+    .form-group input:focus { outline: none; border-color: #1a1a2e; }
+    .btn { width: 100%; padding: 1rem; background: #1a1a2e; color: white; border: none; border-radius: 8px; font-family: 'Barlow', sans-serif; font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1rem; cursor: pointer; }
+    .btn:hover { background: #2d2d44; }
+
+    /* Admin */
+    .admin-layout { display: none; min-height: 100vh; }
+    .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 200px; background: #1a1a2e; color: white; padding: 1.5rem 0; }
+    .sidebar-header { padding: 0 1.25rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem; }
+    .sidebar-header h2 { font-size: 0.95rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.1rem; }
+    .sidebar-header p { font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-top: 0.25rem; }
+    .nav-item { padding: 0.75rem 1.25rem; cursor: pointer; transition: all 0.2s; border-left: 3px solid transparent; font-size: 0.85rem; }
+    .nav-item:hover { background: rgba(255,255,255,0.05); }
+    .nav-item.active { background: rgba(255,255,255,0.1); border-left-color: white; }
+    .main-content { margin-left: 200px; min-height: 100vh; padding: 1.5rem 2rem; }
+
+    /* Page Header */
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .page-header h1 { font-size: 1.25rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.1rem; }
+    .btn-add { width: auto; padding: 0.5rem 1rem; font-size: 0.8rem; background: #333; }
+
+    /* Two Column Layout */
+    .two-col { display: flex; gap: 1.5rem; }
+    .col-left { width: 280px; flex-shrink: 0; }
+    .col-right { flex: 1; min-width: 0; }
+
+    /* Artwork List */
+    .artwork-list-panel { background: white; border-radius: 8px; border: 1px solid #ddd; overflow: hidden; }
+    .artwork-list-header { padding: 0.75rem 1rem; background: #f5f5f5; border-bottom: 1px solid #ddd; font-size: 0.8rem; font-weight: 500; color: #555; }
+    .artwork-list { max-height: calc(100vh - 280px); overflow-y: auto; }
+    .artwork-item { display: flex; align-items: center; padding: 0.625rem 0.875rem; border-bottom: 1px solid #eee; cursor: pointer; gap: 0.5rem; }
+    .artwork-item:hover { background: #f9f9f9; }
+    .artwork-item.selected { background: #e3f2fd; }
+    .drag-handle { color: #bbb; cursor: grab; font-size: 0.875rem; }
+    .artwork-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; background: #eee; }
+    .artwork-info { flex: 1; min-width: 0; }
+    .artwork-title { font-weight: 500; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .artwork-meta { font-size: 0.7rem; color: #888; }
+    .artwork-status { font-size: 0.65rem; padding: 0.15rem 0.4rem; border-radius: 3px; text-transform: uppercase; font-weight: 500; }
+    .status-available { background: #d4edda; color: #155724; }
+    .status-sold { background: #f8d7da; color: #721c24; }
+    .status-reserved { background: #fff3cd; color: #856404; }
+
+    /* Editor Panel */
+    .editor-panel { background: white; border-radius: 8px; border: 1px solid #ddd; }
+    .editor-header { padding: 0.75rem 1rem; background: #f5f5f5; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; }
+    .editor-header h3 { font-size: 1rem; font-weight: 500; color: #333; }
+    .editor-actions { display: flex; gap: 0.5rem; }
+    .btn-icon-action { width: 36px; height: 36px; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .btn-delete { background: #dc3545; color: white; }
+    .btn-delete:hover { background: #c82333; }
+    .btn-save-top { background: #28a745; color: white; }
+    .btn-save-top:hover { background: #218838; }
+    .editor-body { padding: 1.5rem 2rem; }
+
+    /* Form Fields */
+    .field-row { display: flex; gap: 1.5rem; margin-bottom: 1.25rem; }
+    .field-row .field { flex: 1; }
+    .field { margin-bottom: 1.25rem; }
+    .field label { display: block; font-size: 0.8rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.02rem; font-weight: 500; }
+    .field input, .field select { width: 100%; padding: 0.875rem 1rem; border: 1px solid #bbb; border-radius: 4px; font-size: 1rem; font-family: 'Barlow', sans-serif; height: 48px; }
+    .field input:focus, .field select:focus { outline: none; border-color: #1a1a2e; }
+
+    /* Image Upload */
+    .image-section { margin-top: 2rem; }
+    .image-section-title { font-size: 0.8rem; color: #555; margin-bottom: 0.75rem; text-transform: uppercase; font-weight: 500; }
+    .image-upload-box { border: 2px dashed #bbb; border-radius: 6px; padding: 2.5rem; text-align: center; cursor: pointer; background: #fafafa; }
+    .image-upload-box:hover { border-color: #1a1a2e; background: #f5f5f5; }
+    .image-upload-box.has-image { border-style: solid; border-color: #1a1a2e; padding: 0.75rem; background: white; }
+    .upload-preview { max-width: 100%; max-height: 250px; border-radius: 4px; }
+
+    /* Additional Images */
+    .thumb-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem; }
+    .thumb-item { width: 80px; height: 80px; border-radius: 4px; overflow: hidden; position: relative; background: #eee; }
+    .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb-item .remove { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 0.75rem; }
+    .thumb-add { width: 80px; height: 80px; border: 2px dashed #bbb; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #888; font-size: 1.5rem; background: #fafafa; }
+    .thumb-add:hover { border-color: #1a1a2e; color: #1a1a2e; }
+  </style>
+</head>
+<body>
+
+  <!-- Login -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <h1>Claus Bertermann</h1>
+      <p>Admin Panel</p>
+      
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="username" value="admin" autocomplete="username">
+      </div>
+      
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter password" autocomplete="current-password">
+      </div>
+      
+      <button class="btn" id="loginBtn">Sign In</button>
+    </div>
+  </div>
+
+  <!-- Admin -->
+  <div class="admin-layout" id="adminLayout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Bertermann.art</h2>
+        <p>Content Management</p>
+      </div>
+      <nav>
+        <div class="nav-item active" onclick="showSection('gallery')">Gallery</div>
+        <div class="nav-item" onclick="showSection('carousel')">Carousel</div>
+        <div class="nav-item" onclick="showSection('blog')">Blog</div>
+        <div class="nav-item" onclick="showSection('bio')">Bio</div>
+        <div class="nav-item" onclick="showSection('images')">Images</div>
+        <div class="nav-item" onclick="logout()">Logout</div>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1>Gallery Management</h1>
+        <button class="btn btn-add" onclick="newArtwork()">+ Add New</button>
+      </div>
+      
+      <!-- Two Column Layout -->
+      <div class="two-col">
+        
+        <!-- Left: Artwork List -->
+        <div class="col-left">
+          <div class="artwork-list-panel">
+            <div class="artwork-list-header">Figurative Works</div>
+            <div class="artwork-list" id="artworkList"></div>
+          </div>
+        </div>
+        
+        <!-- Right: Editor -->
+        <div class="col-right">
+          <div class="editor-panel">
+            <div class="editor-header">
+              <h3 id="editorTitle">New Artwork</h3>
+              <div class="editor-actions">
+                <button class="btn-icon-action btn-delete" id="deleteBtn" onclick="deleteCurrentArtwork()" title="Delete">&#128465;</button>
+                <button class="btn-icon-action btn-save-top" onclick="saveArtwork()" title="Save">&#10003;</button>
+              </div>
+            </div>
+            <div class="editor-body" id="editorBody"></div>
+          </div>
+        </div>
+        
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = 'bertermann2024';
+    let artworks = JSON.parse(localStorage.getItem('bertermann_artworks') || '[]');
+    let currentArtwork = null;
+    let tempImages = [];
+
+    document.getElementById('loginBtn').addEventListener('click', doLogin);
+    document.getElementById('password').addEventListener('keypress', e => { if (e.key === 'Enter') doLogin(); });
+
+    function doLogin() {
+      if (document.getElementById('password').value === ADMIN_PASSWORD) {
+        sessionStorage.setItem('admin_auth', 'true');
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('adminLayout').style.display = 'block';
+        initGallery();
+      } else {
+        alert('Wrong password');
+      }
+    }
+
+    function logout() {
+      sessionStorage.removeItem('admin_auth');
+      location.reload();
+    }
+
+    if (sessionStorage.getItem('admin_auth') === 'true') {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminLayout').style.display = 'block';
+      initGallery();
+    }
+
+    function initGallery() {
+      renderArtworkList();
+      newArtwork();
+    }
+
+    function renderArtworkList() {
+      const list = document.getElementById('artworkList');
+      const items = artworks.filter(a => a.category === 'figurative').sort((a,b) => (a.order||0)-(b.order||0));
+      
+      if (items.length === 0) {
+        list.innerHTML = '<div style="padding:2rem;text-align:center;color:#888;">No artworks yet</div>';
+        return;
+      }
+      
+      list.innerHTML = items.map((a, i) => `
+        <div class="artwork-item ${currentArtwork?.id===a.id?'selected':''}" onclick="editArtwork('${a.id}')">
+          <span class="drag-handle">&#8942;&#8942;</span>
+          <img src="${a.mainImage || '/images/placeholder.jpg'}" class="artwork-thumb">
+          <div class="artwork-info">
+            <div class="artwork-title">${a.title || 'Untitled'}</div>
+            <div class="artwork-meta">${a.year || '-'} &bull; ${a.width||'-'} &times; ${a.height||'-'} cm</div>
+          </div>
+          <span class="artwork-status status-${a.status||'available'}">${a.status || 'available'}</span>
+        </div>
+      `).join('');
+    }
+
+    function newArtwork() {
+      currentArtwork = {
+        id: null,
+        title: '',
+        year: new Date().getFullYear(),
+        materials: '',
+        width: '',
+        height: '',
+        status: 'available',
+        category: 'figurative',
+        mainImage: '',
+        additionalImages: [],
+        altText: '',
+        price: ''
+      };
+      tempImages = [];
+      renderEditor();
+    }
+
+    function editArtwork(id) {
+      const a = artworks.find(x=>x.id === id);
+      if (!a) return;
+      currentArtwork = { ...a };
+      tempImages = [...(a.additionalImages || [])];
+      renderArtworkList();
+      renderEditor();
+    }
+
+    function renderEditor() {
+      const isNew = !currentArtwork.id;
+      document.getElementById('editorTitle').textContent = isNew ? 'New Artwork' : 'Edit Artwork';
+      document.getElementById('deleteBtn').style.display = isNew ? 'none' : 'flex';
+      
+      document.getElementById('editorBody').innerHTML = `
+        <!-- Row 1: Title (full width) -->
+        <div class="field">
+          <label>Title</label>
+          <input type="text" id="artTitle" value="${currentArtwork.title || ''}" placeholder="Artwork title">
+        </div>
+        
+        <!-- Row 2: Year, Status -->
+        <div class="field-row">
+          <div class="field">
+            <label>Year</label>
+            <input type="number" id="artYear" value="${currentArtwork.year || ''}">
+          </div>
+          <div class="field">
+            <label>Status</label>
+            <select id="artStatus">
+              <option value="available" ${currentArtwork.status==='available'?'selected':''}>Available</option>
+              <option value="sold" ${currentArtwork.status==='sold'?'selected':''}>Sold</option>
+              <option value="reserved" ${currentArtwork.status==='reserved'?'selected':''}>Reserved</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Row 3: Materials, Size, Category -->
+        <div class="field-row">
+          <div class="field">
+            <label>Materials</label>
+            <input type="text" id="artMaterials" value="${currentArtwork.materials || ''}" placeholder="Oil on canvas">
+          </div>
+          <div class="field">
+            <label>Size (cm)</label>
+            <input type="text" id="artSize" value="${(currentArtwork.width && currentArtwork.height) ? currentArtwork.width + ' x ' + currentArtwork.height : ''}" placeholder="W x H">
+          </div>
+          <div class="field">
+            <label>Category</label>
+            <select id="artCategory">
+              <option value="figurative" ${currentArtwork.category==='figurative'?'selected':''}>Figurative</option>
+              <option value="abstract" ${currentArtwork.category==='abstract'?'selected':''}>Abstract</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Row 4: Alt Text (full width) -->
+        <div class="field">
+          <label>Alt Text (Accessibility)</label>
+          <input type="text" id="artAltText" value="${currentArtwork.altText || ''}" placeholder="Description for screen readers">
+        </div>
+        
+        <!-- Row 5: Price (full width) -->
+        <div class="field">
+          <label>Private View Only – Retail Price</label>
+          <input type="text" id="artPrice" value="${currentArtwork.price || ''}" placeholder="Price (private)">
+        </div>
+
+        <!-- Main Image -->
+        <div class="image-section">
+          <div class="image-section-title">Main Image</div>
+          <div class="image-upload-box ${currentArtwork.mainImage?'has-image':''}" onclick="document.getElementById('mainImageInput').click()">
+            <input type="file" id="mainImageInput" accept="image/*" style="display:none" onchange="handleMainImage(this)">
+            <div id="mainPlaceholder" style="display:${currentArtwork.mainImage?'none':'block'}; color:#888;">
+              <div style="font-size:2rem; margin-bottom:0.5rem;">&#128247;</div>
+              <p>Click to upload main image</p>
+            </div>
+            <img id="mainPreview" class="upload-preview" src="${currentArtwork.mainImage}" style="display:${currentArtwork.mainImage?'block':'none'}">
+          </div>
+        </div>
+
+        <!-- Additional Images -->
+        <div class="image-section">
+          <div class="image-section-title">Additional Images (up to 20)</div>
+          <div class="thumb-grid" id="additionalImages">
+            ${renderThumbs()}
+          </div>
+          <input type="file" id="additionalInput" accept="image/*" multiple style="display:none" onchange="handleAdditionalImages(this)">
+        </div>
+      `;
+    }
+
+    function renderThumbs() {
+      let html = tempImages.map((img, i) => `
+        <div class="thumb-item">
+          <img src="${img}">
+          <button class="remove" onclick="removeThumb(${i})">&#10005;</button>
+        </div>
+      `).join('');
+      if (tempImages.length < 20) {
+        html += `<div class="thumb-add" onclick="document.getElementById('additionalInput').click()">+</div>`;
+      }
+      return html;
+    }
+
+    function handleMainImage(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          currentArtwork.mainImage = e.target.result;
+          document.getElementById('mainPreview').src = e.target.result;
+          document.getElementById('mainPreview').style.display = 'block';
+          document.getElementById('mainPlaceholder').style.display = 'none';
+          document.querySelector('.image-upload-box').classList.add('has-image');
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function handleAdditionalImages(input) {
+      if (!input.files) return;
+      Array.from(input.files).forEach(file => {
+        if (tempImages.length >= 20) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+          tempImages.push(e.target.result);
+          document.getElementById('additionalImages').innerHTML = renderThumbs();
+        };
+        reader.readAsDataURL(file);
+      });
+      input.value = '';
+    }
+
+    function removeThumb(i) {
+      tempImages.splice(i, 1);
+      document.getElementById('additionalImages').innerHTML = renderThumbs();
+    }
+
+    function saveArtwork() {
+      const sizeStr = document.getElementById('artSize').value;
+      let width = 0, height = 0;
+      if (sizeStr) {
+        const parts = sizeStr.split(/[xX\s]+/);
+        if (parts.length >= 2) {
+          width = parseInt(parts[0]) || 0;
+          height = parseInt(parts[1]) || 0;
+        }
+      }
+
+      const data = {
+        id: currentArtwork.id || 'art_' + Date.now(),
+        title: document.getElementById('artTitle').value,
+        year: parseInt(document.getElementById('artYear').value) || new Date().getFullYear(),
+        status: document.getElementById('artStatus').value,
+        materials: document.getElementById('artMaterials').value,
+        width: width,
+        height: height,
+        category: document.getElementById('artCategory').value,
+        altText: document.getElementById('artAltText').value,
+        price: document.getElementById('artPrice').value,
+        mainImage: currentArtwork.mainImage,
+        additionalImages: tempImages,
+        order: currentArtwork.order !== undefined ? currentArtwork.order : artworks.filter(a=>a.category===document.getElementById('artCategory').value).length
+      };
+
+      const idx = artworks.findIndex(a => a.id === data.id);
+      if (idx >= 0) artworks[idx] = data;
+      else artworks.push(data);
+
+      localStorage.setItem('bertermann_artworks', JSON.stringify(artworks));
+      currentArtwork = data;
+      renderArtworkList();
+      renderEditor();
+    }
+
+    function deleteCurrentArtwork() {
+      if (!currentArtwork.id) return;
+      if (confirm('Delete this artwork?')) {
+        artworks = artworks.filter(a => a.id !== currentArtwork.id);
+        localStorage.setItem('bertermann_artworks', JSON.stringify(artworks));
+        currentArtwork = null;
+        renderArtworkList();
+        newArtwork();
+      }
+    }
+
+    function showSection(section) {
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

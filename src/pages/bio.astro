@@ -1,0 +1,432 @@
+---
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Bio - Claus Bertermann" />
+    <title>Bio - Claus Bertermann</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Barlow', sans-serif;
+        background-color: #ffffff;
+        color: #111827;
+        min-height: 100vh;
+      }
+      
+      /* Header */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background: #ffffff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      
+      .header-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.75rem;
+        font-weight: 300;
+        letter-spacing: 0.1875rem;
+        text-transform: uppercase;
+        color: #111827;
+        text-decoration: none;
+      }
+      
+      .logo img {
+        height: 28px;
+        width: auto;
+      }
+      
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2.5rem;
+        align-items: center;
+      }
+      
+      nav li {
+        position: relative;
+      }
+      
+      nav a {
+        color: #111827;
+        text-decoration: none;
+        font-size: 0.9375rem;
+        font-weight: 400;
+        letter-spacing: 0.05rem;
+        text-transform: uppercase;
+        transition: color 0.3s;
+        font-family: 'Barlow', sans-serif;
+      }
+      
+      nav a:hover {
+        color: #6b7280;
+      }
+      
+      /* Dropdown Menu */
+      .dropdown {
+        position: relative;
+        padding-bottom: 1rem;
+        margin-bottom: -1rem;
+      }
+      
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #ffffff;
+        min-width: 160px;
+        padding: 0.5rem 0;
+        margin-top: 0;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+      
+      .dropdown-content::before {
+        content: '';
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 6px solid #ffffff;
+      }
+      
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      
+      .dropdown-content a {
+        display: block;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.8125rem;
+        font-weight: 300;
+        color: #374151;
+        text-align: center;
+      }
+      
+      .dropdown-content a:hover {
+        color: #111827;
+        background: rgba(0, 0, 0, 0.05);
+      }
+      
+      /* Main Content */
+      main {
+        padding-top: 80px;
+        min-height: 100vh;
+      }
+      
+      /* Bio Section */
+      .bio-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+      }
+      
+      .bio-header {
+        margin-bottom: 3rem;
+      }
+      
+      .bio-header h1 {
+        font-size: 2rem;
+        font-weight: 300;
+        letter-spacing: 0.05rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        color: #111827;
+      }
+      
+      .bio-header .subtitle {
+        font-size: 1.625rem;
+        font-weight: 400;
+        color: #111827;
+        margin-bottom: 0.25rem;
+      }
+      
+      .bio-header .tagline {
+        font-size: 1.125rem;
+        font-weight: 300;
+        color: #6b7280;
+        font-style: italic;
+      }
+      
+      .bio-content-wrapper {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: 4rem;
+        align-items: start;
+      }
+      
+      .bio-image {
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      
+      .bio-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      .bio-content {
+        max-width: 700px;
+      }
+      
+      .bio-content p {
+        font-size: 1.2rem;
+        font-weight: 300;
+        line-height: 1.8;
+        color: #374151;
+        margin-bottom: 1.25rem;
+      }
+      
+      .bio-content strong {
+        font-weight: 400;
+        color: #111827;
+      }
+      
+      .bio-content a {
+        color: #111827;
+        text-decoration: underline;
+      }
+      
+      .bio-content a:hover {
+        color: #6b7280;
+      }
+      
+      .bio-content .quote {
+        font-size: 1.2rem;
+        font-style: italic;
+        color: #6b7280;
+        border-left: 3px solid #e5e7eb;
+        padding-left: 1.5rem;
+        margin: 2rem 0;
+      }
+      
+      /* Footer */
+      .main-footer {
+        background: #f9fafb;
+        padding: 3rem 2rem;
+        border-top: 1px solid #e5e7eb;
+      }
+      
+      .footer-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+      }
+      
+      .footer-column h3 {
+        font-size: 0.875rem;
+        font-weight: 500;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        color: #111827;
+      }
+      
+      .footer-column ul {
+        list-style: none;
+      }
+      
+      .footer-column li {
+        margin-bottom: 0.75rem;
+      }
+      
+      .footer-column a {
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: color 0.3s;
+      }
+      
+      .footer-column a:hover {
+        color: #111827;
+      }
+      
+      .footer-bottom {
+        max-width: 1400px;
+        margin: 2rem auto 0;
+        padding-top: 2rem;
+        border-top: 1px solid #e5e7eb;
+        text-align: center;
+        color: #9ca3af;
+        font-size: 0.875rem;
+      }
+      
+      /* Responsive */
+      @media (max-width: 968px) {
+        .bio-content-wrapper {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        
+        .bio-image {
+          max-width: 400px;
+          margin: 0 auto;
+        }
+        
+        .bio-header h1 {
+          font-size: 1.5rem;
+        }
+        
+        .bio-header .subtitle {
+          font-size: 1.25rem;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .header-container {
+          padding: 1rem;
+        }
+        
+        .logo {
+          font-size: 1rem;
+        }
+        
+        .logo img {
+          height: 20px;
+        }
+        
+        nav ul {
+          gap: 1rem;
+        }
+        
+        nav a {
+          font-size: 0.75rem;
+        }
+        
+        .footer-container {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <a href="/" class="logo">
+          <img src="/favicon.png" alt="Logo" />
+          <span>Claus Bertermann</span>
+        </a>
+        <nav>
+          <ul>
+            <li class="dropdown">
+              <span style="color: #111827; font-size: 0.9375rem; font-weight: 400; letter-spacing: 0.05rem; text-transform: uppercase; cursor: default;">Selected Works</span>
+              <div class="dropdown-content">
+                <a href="/selected-works?category=figurative">Figurative</a>
+                <a href="/selected-works?category=abstract">Abstract</a>
+              </div>
+            </li>
+            <li><a href="/bio">Bio</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="bio-container">
+        <div class="bio-header">
+          <h1>Biography</h1>
+          <p class="subtitle">Claus Bertermann</p>
+          <p class="tagline">Contemporary Artist – Abstract and Figurative Paintings</p>
+        </div>
+        
+        <div class="bio-content-wrapper">
+          <div class="bio-image">
+            <img src="/images/claus-portrait.jpg" alt="Claus Bertermann" />
+          </div>
+          <div class="bio-content">
+            <p><strong>bertermann.art</strong> is the official website of artist Claus Bertermann, where current works, studio projects, and verified information are published directly.</p>
+            
+            <p>Claus Bertermann is a German-Spanish contemporary artist working between abstraction and figuration. His artistic practice is defined by a dual approach, in which two distinct yet interdependent bodies of work coexist: large-scale abstract paintings and raw figurative works.</p>
+            
+            <p>Born in 1965 in Stuttgart, Germany, and now based in Spain, Claus Bertermann was originally trained as an architect at the Technische Universität München (TUM). His architectural background shaped a deep understanding of space, proportion, and structure – elements that continue to inform his painting. At the same time, it was precisely the rigidity of architecture that pushed him toward art as a space of freedom, intuition, and physical engagement.</p>
+            
+            <p>Claus Bertermann's abstract works form the continuous core of his practice. Working primarily in large-format oil on canvas, these paintings are built through repeated layering, overpainting, erasure, and reconfiguration. Color plays a central structural role, creating rhythm, depth, and spatial balance without narrative or figurative reference. These works are collected for their calm authority, material presence, and architectural compatibility.</p>
+            
+            <p>In contrast, Claus Bertermann's figurative works function as a deliberate counter-movement. They are created through a more impulsive, bodily process, often using unconventional tools such as paint rollers to break habitual gestures and introduce physical tension. These works provoke immediate emotional responses and have led to rapid, high-value direct sales, including mid-five-figure acquisitions by private collectors.</p>
+            
+            <p>Rather than representing a stylistic contradiction, this dual practice is essential to Claus Bertermann's artistic integrity. The alternation between abstraction and figuration prevents repetition, sustains creative intensity, and expands the emotional and conceptual range of his work.</p>
+            
+            <p>Claus Bertermann's abstract paintings have appeared in auctions at Christie&#8217;s, Sotheby&#8217;s, Artcurial, Dorotheum, Van Ham and others, with hammer prices reaching up to 18,900 EUR in 2024 and 2025. His works are held in private collections across Europe, the United States, and Asia.</p>
+            
+            <p>His studio in Oviedo, Spain, serves as an experimental laboratory where materials, tools, and processes are tested without preconception. For Claus Bertermann, painting is not illustration but confrontation – an invitation to engage with uncertainty, perception, and the raw presence of color and form.</p>
+            
+            <p class="quote">&#8220;I don't plan a painting. I let it happen. It's a fight, a dance, a conversation. Sometimes I scream at the canvas, sometimes it whispers back.&#8221;</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-container">
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="/selected-works">Selected Works</a></li>
+            <li><a href="/bio">Bio</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/legal">Legal</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Shop</h3>
+          <ul>
+            <li><a href="https://www.1stdibs.com/dealers/claus-bertermann/" target="_blank" rel="noopener noreferrer">Claus Bertermann on 1stDibs</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Follow Us</h3>
+          <ul>
+            <li><a href="https://www.instagram.com/clausbertermann/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="https://www.linkedin.com/in/clausbertermann/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 <span style="text-transform: uppercase; letter-spacing: 0.1rem;">Claus Bertermann</span>. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
