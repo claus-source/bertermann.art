@@ -6,7 +6,7 @@ import keystatic from '@keystatic/astro';
 
 export default defineConfig({
   site: 'https://bertermann-art.netlify.app',
-  output: 'server',
+  output: 'static',
   adapter: netlify(),
   integrations: [
     react(),
